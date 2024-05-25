@@ -1,0 +1,107 @@
+version: "3.3"
+
+networks:
+  external_network:
+    driver: bridge
+    internal: false
+  internal_network:
+    driver: bridge
+    internal: true
+
+services:
+  eventbus:
+    image: micheal65536/vienna:eventbus-latest
+    hostname: eventbus
+    networks:
+      - internal_network
+    restart: unless-stopped
+
+  objectstore:
+    image: micheal65536/vienna:objectstore-latest
+    hostname: objectstore
+    networks:
+      - internal_network
+    volumes:
+      - ./objects:/data
+    restart: unless-stopped
+
+  apiserver:
+    image: micheal65536/vienna:apiserver-latest
+    command: -eventbus eventbus -objectstore objectstore
+    hostname: apiserver
+    networks:
+      - internal_network
+      - external_network
+    ports:
+      - ${API_PORT}:8080
+    volumes:
+      - ./static:/static
+      - ./db:/data
+    depends_on:
+      - eventbus
+      - objectstore
+    restart: unless-stopped
+
+  buildplate-launcher:
+    image: micheal65536/vienna:buildplate-launcher-latest
+    command: -eventbus eventbus -publicAddress ${ADDRESS}
+    hostname: buildplate-launcher
+    networks:
+      - internal_network
+      - external_network
+    ports:
+      - 19132-19141:19132-19141/udp
+    depends_on:
+      - eventbus
+      - apiserver
+    restart: unless-stopped
+
+  tappablesgenerator:
+    image: micheal65536/vienna:tappablesgenerator-latest
+    command: -eventbus eventbus
+    hostname: tappablesgenerator
+    networks:
+      - internal_network
+      - external_network
+    volumes:
+      - ./static:/static
+    depends_on:
+      - eventbus
+    restart: unless-stopped
+
+  cdn:
+    image: micheal65536/vienna:utils-cdn-latest
+    hostname: cdn
+    networks:
+      - external_network
+    ports:
+      - ${CDN_PORT}:8080
+    volumes:
+      - ./resourcepack:/data
+    restart: unless-stopped
+
+  locator:
+    image: micheal65536/vienna:utils-locator-latest
+    command: -playfabTitleId 20CA2 -api http://${ADDRESS}:${API_PORT}/ -cdn http://${ADDRESS}:${CDN_PORT}/
+    hostname: locator
+    networks:
+      - external_network
+    ports:
+      - ${LOCATOR_PORT}:8080
+    restart: unless-stopped
+
+  buildplate-importer:
+    image: micheal65536/vienna:utils-tools-buildplate-importer-latest
+    command: -eventbus eventbus -objectstore objectstore -worldFile /world/world -playerId ${BUILDPLATE_IMPORTER_PLAYER_ID}
+    hostname: buildplate-importer
+    networks:
+      - internal_network
+    volumes:
+      - ./db:/data
+      - ./world:/world
+    depends_on:
+      - objectstore
+      - buildplate-launcher
+    profiles:
+      - buildplate-importer
+    restart: no
