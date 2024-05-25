@@ -1,0 +1,12 @@
+# put your IP address or domain name here
+ADDRESS=192.168.1.xx
+
+# this is the port that you use in the patcher
+LOCATOR_PORT=8080
+
+# you do not need to do anything with these
+API_PORT=8088
+CDN_PORT=8089
+
+# leave blank
+BUILDPLATE_IMPORTER_PLAYER_ID=
