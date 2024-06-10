@@ -47,7 +47,7 @@ VOLUME /fabric/world
 
 FROM java-build AS vienna-build
 WORKDIR /vienna
-RUN mkdir Vienna; wget -O - https://github.com/Project-Genoa/Vienna/archive/f13062996b18bc27c5389418045747c55df00e7c.tar.gz | gunzip | tar -C Vienna -x --strip-components=1
+RUN mkdir Vienna; wget -O - https://github.com/Project-Genoa/Vienna/archive/0f52c28af0cb02e5341aec2962177c112a26429d.tar.gz | gunzip | tar -C Vienna -x --strip-components=1
 RUN mkdir Fountain-connector-plugin-base; wget -O - https://github.com/Project-Genoa/Fountain-connector-plugin-base/archive/0a6dc8bb650b82c621c0eeaf2656058f313aad89.tar.gz | gunzip | tar -C Fountain-connector-plugin-base -x --strip-components=1
 WORKDIR /vienna/Fountain-connector-plugin-base
 RUN PATH=/java-17/bin:$PATH ./mvnw install
