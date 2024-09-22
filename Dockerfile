@@ -12,7 +12,7 @@ RUN wget -O - https://github.com/adoptium/temurin8-binaries/releases/download/jd
 
 FROM java-build AS build
 WORKDIR /fountain
-RUN mkdir Fountain-bridge; wget -O - https://github.com/Project-Genoa/Fountain-bridge/archive/3d4eb8c0d54ba797dfaa85afd0879a93d4c07218.tar.gz | gunzip | tar -C Fountain-bridge -x --strip-components=1
+RUN mkdir Fountain-bridge; wget -O - https://github.com/Project-Genoa/Fountain-bridge/archive/255651f9c4bf530e0dcef4617c8b328844d8c9ca.tar.gz | gunzip | tar -C Fountain-bridge -x --strip-components=1
 RUN mkdir Fountain-fabric; wget -O - https://github.com/Project-Genoa/Fountain-fabric/archive/5b68ee996742791987bbd734117bbef4ad41bd47.tar.gz | gunzip | tar -C Fountain-fabric -x --strip-components=1
 RUN mkdir Fountain-connector-plugin-base; wget -O - https://github.com/Project-Genoa/Fountain-connector-plugin-base/archive/ddb780d03e61785cc1e1cb9e920e7e5bf14a3ff7.tar.gz | gunzip | tar -C Fountain-connector-plugin-base -x --strip-components=1
 RUN mkdir Protocol; wget -O - https://github.com/Project-Genoa/Protocol/archive/b5b4225de434115c4098b13df7419bf2db61319f.tar.gz | gunzip | tar -C Protocol -x --strip-components=1
