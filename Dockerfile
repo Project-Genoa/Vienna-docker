@@ -12,13 +12,13 @@ RUN wget -O - https://github.com/adoptium/temurin8-binaries/releases/download/jd
 
 FROM java-build AS build
 WORKDIR /fountain
-RUN mkdir Fountain-bridge; wget -O - https://github.com/Project-Genoa/Fountain-bridge/archive/4a13181200b7d72272e986c749c4cef7a8575467.tar.gz | gunzip | tar -C Fountain-bridge -x --strip-components=1
+RUN mkdir Fountain-bridge; wget -O - https://github.com/Project-Genoa/Fountain-bridge/archive/3d4eb8c0d54ba797dfaa85afd0879a93d4c07218.tar.gz | gunzip | tar -C Fountain-bridge -x --strip-components=1
 RUN mkdir Fountain-fabric; wget -O - https://github.com/Project-Genoa/Fountain-fabric/archive/5b68ee996742791987bbd734117bbef4ad41bd47.tar.gz | gunzip | tar -C Fountain-fabric -x --strip-components=1
-RUN mkdir Fountain-connector-plugin-base; wget -O - https://github.com/Project-Genoa/Fountain-connector-plugin-base/archive/f8344b03da2c27e960ae70fef36f8b501457f0a2.tar.gz | gunzip | tar -C Fountain-connector-plugin-base -x --strip-components=1
+RUN mkdir Fountain-connector-plugin-base; wget -O - https://github.com/Project-Genoa/Fountain-connector-plugin-base/archive/ddb780d03e61785cc1e1cb9e920e7e5bf14a3ff7.tar.gz | gunzip | tar -C Fountain-connector-plugin-base -x --strip-components=1
 RUN mkdir Protocol; wget -O - https://github.com/Project-Genoa/Protocol/archive/b5b4225de434115c4098b13df7419bf2db61319f.tar.gz | gunzip | tar -C Protocol -x --strip-components=1
 WORKDIR /vienna
-RUN mkdir Vienna; wget -O - https://github.com/Project-Genoa/Vienna/archive/1dda57a8e72208ab4ca1ab1c419a716631f46c72.tar.gz | gunzip | tar -C Vienna -x --strip-components=1
-RUN mkdir Vienna-fabric; wget -O - https://github.com/Project-Genoa/Vienna-fabric/archive/c3e2b6ac8a81ff374cfe8c7803bb5052c277f60a.tar.gz | gunzip | tar -C Vienna-fabric -x --strip-components=1
+RUN mkdir Vienna; wget -O - https://github.com/Project-Genoa/Vienna/archive/ada65564a1071386bd18140e57e05f2ab97c4fbd.tar.gz | gunzip | tar -C Vienna -x --strip-components=1
+RUN mkdir Vienna-fabric; wget -O - https://github.com/Project-Genoa/Vienna-fabric/archive/7ecefce63402a7a6d5ddc0448e8bd4e98dc060c8.tar.gz | gunzip | tar -C Vienna-fabric -x --strip-components=1
 WORKDIR /fountain/Protocol
 RUN PATH=/java-8/bin:$PATH ./gradlew publishToMavenLocal
 WORKDIR /fountain/Fountain-connector-plugin-base
